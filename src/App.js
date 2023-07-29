@@ -1,25 +1,57 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import { marked } from 'marked';
 import './App.css';
 
-function App() {
+const MarkdownPreviewer=()=>{
+  const [markdownText, setMarkdownText] = useState(`
+  # Welcome to Markdown Previewer!
+  
+  ## This is a sub-heading...
+  
+  ### You can type markdown code, and then you can see what will be in HTML!
+  
+  [link](https://www.google.com/)
+
+  ![Image](https://i.imgur.com/6bkjwbM.jpg)
+
+  Inline code: \`<div></div>\`
+  
+  \`\`\`
+  // Code block:
+  function add(a, b) {
+      return a + b;
+  }
+  \`\`\`
+  
+  - List item.
+  
+  > Blockquote.
+  
+  **Bold text**
+  
+  *Italic text*
+  
+  ***or...BOTH!***
+  `
+  );
+  
+  const handleInputChange = (e) => {
+      setMarkdownText(e.target.value);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container">
+      <div id="left-box">
+        <h2 className="box-title">　Editor</h2>
+        <textarea id="editor" value={markdownText} onChange={handleInputChange}></textarea>
+      </div>
+      <div id="middle-line"></div>
+      <div id="right-box">
+        <h2 className="box-title">　Previewer</h2>
+        <div id="preview" dangerouslySetInnerHTML={{ __html: marked(markdownText, { breaks: true }) }}></div>
+      </div>
     </div>
   );
-}
+};
 
-export default App;
+export default MarkdownPreviewer;
